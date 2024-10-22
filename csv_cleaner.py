@@ -1,6 +1,11 @@
 import csv
 import re
 
+def has_invisible_characters(text):
+    # Regular expression to match invisible Unicode characters
+    invisible_chars_pattern = re.compile(r'[\u200B-\u200D\uFEFF]')
+    return bool(invisible_chars_pattern.search(text))
+
 def process_csv(input_file, output_file):
     with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
          open(output_file, 'w', newline='', encoding='utf-8') as outfile:
@@ -21,7 +26,8 @@ def process_csv(input_file, output_file):
                 line.startswith(',') or             # Empty field before comma
                 line.endswith(',') or               # Empty field after comma
                 ',,' in line or                     # Empty field between commas
-                line.strip() != line):              # Starts or ends with whitespace
+                line.strip() != line or             # Starts or ends with whitespace
+                has_invisible_characters(line)):    # Contains invisible Unicode characters
                 continue  # Skip this row
 
             # Convert the row to a tuple so it can be added to the set
