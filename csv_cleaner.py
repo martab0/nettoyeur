@@ -20,7 +20,8 @@ def process_csv(input_file, output_file):
                 re.search('<[^>]+>', line) or       # Contains HTML tags
                 line.startswith(',') or             # Empty field before comma
                 line.endswith(',') or               # Empty field after comma
-                ',,' in line):                      # Empty field between commas
+                ',,' in line or                     # Empty field between commas
+                line.strip() != line):              # Starts or ends with whitespace
                 continue  # Skip this row
 
             # Convert the row to a tuple so it can be added to the set
