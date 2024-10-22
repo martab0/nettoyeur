@@ -7,6 +7,8 @@ def process_csv(input_file, output_file):
         reader = csv.reader(infile)
         writer = csv.writer(outfile)
 
+        seen = set()  # To keep track of unique rows
+
         for row in reader:
             # Join the row elements into a single string
             line = ','.join(row)
@@ -21,8 +23,13 @@ def process_csv(input_file, output_file):
                 ',,' in line):                      # Empty field between commas
                 continue  # Skip this row
 
-            # If we've made it here, the row is valid
-            writer.writerow(row)
+            # Convert the row to a tuple so it can be added to the set
+            row_tuple = tuple(row)
+
+            # If the row is not a duplicate, write it to the output file
+            if row_tuple not in seen:
+                writer.writerow(row)
+                seen.add(row_tuple)
 
 def main():
     input_file = input("Enter the input CSV file name: ")
