@@ -23,13 +23,13 @@ def process_csv(input_file, output_file, deleted_rows_file):
             # Check conditions
             if (',' not in line or                  # No comma
                 line.count(',') > 1 or              # More than one comma
-                '"' in line or                      # Contains quotation marks
-                re.search('<[^>]+>', line) or       # Contains HTML tags
+                # '"' in line or                      # Contains quotation marks
+                # re.search('<[^>]+>', line) or       # Contains HTML tags
                 line.startswith(',') or             # Empty field before comma
                 line.endswith(',') or               # Empty field after comma
-                ',,' in line or                     # Empty field between commas
-                line.strip() != line or             # Starts or ends with whitespace
-                has_invisible_characters(line)):    # Contains invisible Unicode characters
+                ',,' in line):                     # Empty field between commas
+                # line.strip() != line or             # Starts or ends with whitespace
+                # has_invisible_characters(line)):    # Contains invisible Unicode characters
                 deleted_writer.writerow(row)  # Write to deleted rows file
                 continue  # Skip this row
 
