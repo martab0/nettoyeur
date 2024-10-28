@@ -12,7 +12,7 @@ def process_csv(input_file, output_file):
         reader = csv.reader(infile)
         writer = csv.writer(outfile)
 
-        seen = set()  # To keep track of unique rows
+        seen = {}  # To keep track of unique source terms and their target terms
 
         for row in reader:
             # Join the row elements into a single string
@@ -30,13 +30,19 @@ def process_csv(input_file, output_file):
                 has_invisible_characters(line)):    # Contains invisible Unicode characters
                 continue  # Skip this row
 
-            # Convert the row to a tuple so it can be added to the set
-            row_tuple = tuple(row)
+            # Split the row into source and target terms
+            if len(row) == 2:
+                source_term, target_term = row
 
-            # If the row is not a duplicate, write it to the output file
-            if row_tuple not in seen:
-                writer.writerow(row)
-                seen.add(row_tuple)
+                # If the source term is new or matches the existing target term, add/keep it
+                if source_term not in seen or seen[source_term] == target_term:
+                    seen[source_term] = target_term
+            else:
+                continue  # Skip rows that don't have exactly two columns
+
+        # Write the unique entries to the output file
+        for source_term, target_term in seen.items():
+            writer.writerow([source_term, target_term])
 
 def main():
     input_file = input("Enter the input CSV file name: ")
