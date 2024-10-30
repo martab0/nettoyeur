@@ -1,6 +1,9 @@
 # Nettoyeur
  
-Cleaning a CSV with unidirectional glossary - suitable for Google Translate Advanced and other MTs that can be customised with a glossary.  
+Cleaning a CSV with unidirectional glossary - suitable for Google Translate Advanced and other MTs that can be customised with a glossary. 
+
+* Specification: Marta Bartnicka
+* Written by: Claude v3.5 Sonnet
 
 ## How to run
 ```
